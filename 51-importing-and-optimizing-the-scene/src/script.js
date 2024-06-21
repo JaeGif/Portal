@@ -14,13 +14,10 @@ import portalFragmentShader from './shaders/portal/fragment.glsl';
  */
 // Debug
 
-const debugObject = {};
-debugObject.portalColorStart = '#B91CFF';
-debugObject.portalColorEnd = '#000';
+let gui;
+if (window.location.hash === '#debug') gui = new GUI({ width: 340 });
 
-const gui = new GUI({
-  width: 400,
-});
+const debugObject = {};
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -54,8 +51,6 @@ const portalLightMaterial = new THREE.ShaderMaterial({
   side: THREE.DoubleSide,
   uniforms: {
     uTime: { value: 0 },
-    uColorStart: { value: new THREE.Color(debugObject.portalColorStart) },
-    uColorEnd: { value: new THREE.Color(debugObject.portalColorEnd) },
   },
   transparent: true,
 });
@@ -185,27 +180,18 @@ debugObject.clearColor = '#201919';
 renderer.setClearColor(debugObject.clearColor);
 
 // GUI
+if (gui) {
+  gui.addColor(debugObject, 'clearColor').onChange(() => {
+    renderer.setClearColor(debugObject.clearColor);
+  });
 
-gui.addColor(debugObject, 'clearColor').onChange(() => {
-  renderer.setClearColor(debugObject.clearColor);
-});
-gui.addColor(debugObject, 'portalColorStart').onChange(() => {
-  portalLightMaterial.uniforms.uColorStart.value.set(
-    debugObject.portalColorStart
-  );
-});
-
-gui.addColor(debugObject, 'portalColorEnd').onChange(() => {
-  portalLightMaterial.uniforms.uColorEnd.value.set(debugObject.portalColorEnd);
-});
-
-gui
-  .add(firefliesMaterial.uniforms.uSize, 'value')
-  .min(0)
-  .max(500)
-  .step(1)
-  .name('firefliesSize');
-
+  gui
+    .add(firefliesMaterial.uniforms.uSize, 'value')
+    .min(0)
+    .max(500)
+    .step(1)
+    .name('firefliesSize');
+}
 /**
  * Animate
  */
