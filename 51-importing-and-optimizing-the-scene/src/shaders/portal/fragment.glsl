@@ -11,14 +11,14 @@ void main() {
     vec2 displacedUv = vUv + cnoise(vec3(vUv * 5.0, uTime * 0.2));
 
     // Perlin noise
-    float strength = cnoise(vec3(displacedUv * 5.0, uTime * 0.4));
+    float strength = cnoise(vec3(displacedUv * 5.0, uTime * 0.5));
 
     // outer glow
-    float outerGlow = distance(vUv, vec2(0.5)) * 5.0 - 1.25;
+    float outerGlow = distance(vUv, vec2(0.5)) * 5.0 - 1.5;
 
     strength += outerGlow;
     // Apply sharpness
-    strength += step(- 0.2, strength) * 0.8;
+    strength += step(- 0.75, strength) ;
 
     strength = clamp(strength, 0.0, 1.0);
 
