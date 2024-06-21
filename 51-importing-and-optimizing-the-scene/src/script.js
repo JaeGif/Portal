@@ -227,6 +227,7 @@ function updateSky() {
   uniforms['sunPosition'].value.copy(sun);
 
   renderer.toneMappingExposure = skyParameters.exposure;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.render(scene, camera);
 }
 if (gui) {
