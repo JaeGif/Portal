@@ -8,7 +8,7 @@ varying vec2 vUv;
 void main() {
 
     // displace the UV
-    vec2 displacedUv = vUv + cnoise(vec3(vUv * 5.0, uTime * 0.2));
+    vec2 displacedUv = vUv + cnoise(vec3(vUv * 5.0, uTime * 0.3));
 
     // Perlin noise
     float strength = cnoise(vec3(displacedUv * 5.0, uTime * 0.5));
@@ -25,5 +25,8 @@ void main() {
     vec3 color = vec3(0.685, 0.212, 1.0);
     color *= 1.0-strength;
 
-    gl_FragColor = vec4(vec3(color), 1.0 -strength);
+    // if looking throught the portal, filter black and white
+
+   gl_FragColor = vec4(vec3(color), 1.0 -strength - .1);
+
 }
